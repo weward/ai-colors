@@ -1,66 +1,79 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# AI Translator
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This an AI-powered color palette suggesstion app. Currently supports `OpenAI`.
 
-## About Laravel
+---
+### Tech Stack
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Laravel 10
+- AI Services Supported:
+    - OpenAI
+    - 
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
+### Configure ENV Vars
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Config parameters for OpenAI
 
-## Learning Laravel
+```
+AI_CONNECTION=openai
+OPEN_AI_URL=https://api.openai.com/v1/completions
+OPEN_AI_SECRET_KEY=
+OPEN_AI_MODEL=text-davinci-003
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Sample #1
+```json
+{
+    // Variations
+    "count": "3",
+    // Color theory type complementary, triadic, Analogous, etc
+    "color_theory_type": "complementary",
+    // Base color
+    "base_color": "#FF5733",
+    // Number of colors in the color palette
+    "colors_count": "6"
+}
+```
 
-## Laravel Sponsors
+Response
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```json
+{
+    "id": "cmpl-7LnUZyubKID1eYTyR4q6G30uH0jBZ",
+    "object": "text_completion",
+    "created": 1685429491,
+    "model": "text-davinci-003",
+    "choices": [
+        {
+            "text": ":\r\n\r\n1. #FF5733, #FFA851, #FFD971, #B3FF33, #3FFF9F, #33D2FF\r\n2. #FF5733, #FFA851, #FFD971, #33FFB3, #33A2FF, #7F33FF\r\n3. #FF5733, #FFA851, #FFD971, #33FFB3, #9F33FF, #FF33A2",
+            "index": 0,
+            "logprobs": null,
+            "finish_reason": "stop"
+        }
+    ],
+    "usage": {
+        "prompt_tokens": 38,
+        "completion_tokens": 118,
+        "total_tokens": 156
+    }
+}
+```
 
-### Premium Partners
+---
+### Flow
+- Request goes through `routes/api.php` -> `->name('ask')`
+- Request is passed into the `AIController`'s `index` method
+- The `AIService` gets injected
+- The `AIService` loads the current configured `ai` connection from the config file `config/ai.php`
+- `OpenAI` is the default connection and it uses the OpenAIService as called in the `AIService`'s  `loadService()` method
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
 
-## Contributing
+.
+---
+# Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Email: dev.weward@gmail.com
